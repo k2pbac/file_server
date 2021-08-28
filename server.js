@@ -1,20 +1,52 @@
 const net = require('net');
+const { guid } = require('./generateRandomId');
+const port = 3001; // we can define the port 
 
+const {fileFinder} = require("./fileFinder");
+const {sendInstructions} =require("./clientInstructions");
+
+// create a tcp server
 const server = net.createServer();
-const client = net.createConnection({port: 3000});
-// server.js
-// add this line after server is created, before listen is called
+const listOfClients = []
+
+
+
+
 server.on('connection', (client) => {
-  console.log('New client connected!');
-  client.write('Hello there!');
-});
+
+  // let the server know
+  client.setEncoding('utf8')
+  client.process="";
+  client.id = guid();
+
+  // add our connection (client) to our list of clients
+  listOfClients.push(client)
+
+  sendInstructions(client);
 
 
-client.setEncoding('utf8'); // interpret data as text
-client.on('data', (data) => {
-  console.log('Message from client: ', data)
-});
 
-server.listen(3000, () => {
-  console.log('Server listening on port 3000!');
-});
+  client.on('data', (data) => {
+  
+  if(data.trim() === '1'){
+    client.process = 'process-1';
+  }
+  if (client.process === 'process-1'){
+    fileFinder(data.trim(), client);
+  }
+  })
+
+  client.on('close', () => {
+    console.log('Client has left: ', client.id);
+  });
+
+})
+
+server.listen(port, () => {
+  console.log(`🦜 server is listening on port ${port}`)
+})
+
+
+module.exports = {
+  sendInstructions
+}

@@ -1,18 +1,27 @@
-const net = require("net");
+const net = require('net');
 
-const conn = net.createConnection({ 
-  host: 'localhost', // change to IP address of computer or ngrok host if tunneling
-  port: 3000 // or change to the ngrok port if tunneling
-});
-// client.js
-conn.on('data', (data) => {
-  console.log('Server says: ', data);
-});
+const client = net.createConnection({
+  host: 'localhost', // 127.0.0.1,
+  port: 3001
+})
 
-// client.js
+client.setEncoding('utf8');
 
-conn.on('connect', () => {
-  conn.write('Hello from client!');
-});
+// handling the event of data coming in from the server
+// recieving data
+client.on('data', (data) => {
+  console.log(data)
+})
 
-conn.setEncoding('utf8'); // interpret data as text
+// here we are sending data to the server
+client.on('connect', () => {
+  process.stdin.on('data', (data) => {
+    client.write(data)
+  })
+})
+
+// listen for the closing of the connection 
+client.on('end', () => {
+  console.log('disconnected from the server')
+  process.exit()
+})

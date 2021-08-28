@@ -1,0 +1,36 @@
+{
+  "devDependencies": {
+    "telnet": "^0.0.1"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "test": "telnet"
+  },
+  "name": "file-server",
+  "version": "1.0.0",
+  "main": "client.js",
+  "dependencies": {
+    "binary": "^0.3.0",
+    "buffers": "^0.1.1",
+    "chainsaw": "^0.1.0",
+    "debug": "^4.3.2",
+    "ms": "^2.1.2",
+    "npm": "^7.21.1",
+    "pdf2json": "^1.2.3",
+    "run": "^1.4.0",
+    "test": "^0.6.0",
+    "traverse": "^0.3.9"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k2pbac/file_server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/k2pbac/file_server/issues"
+  },
+  "homepage": "https://github.com/k2pbac/file_server#readme",
+  "description": ""
+}
